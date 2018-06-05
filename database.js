@@ -1,3 +1,5 @@
+
+
 const loadDatabase = function (localStorageKey) {
     // Get the string version of the database
     const databaseString = localStorage.getItem(localStorageKey)
@@ -5,33 +7,27 @@ const loadDatabase = function (localStorageKey) {
     // Use JSON.parse() to convert the string back into an object
     return JSON.parse(databaseString)
 }
-const heh = loadDatabase("HomeInventory")
+const HomeInventoryDatabase = loadDatabase("HomeInventory")
 const art = document.getElementById("myStuff");
+const homeInventoryFragment = document.createDocumentFragment()
 
-for(key in heh) {
-    console.log(heh[key])
-  for (let i =0; i < heh[key].length; i++) {
-    
+const populateDomForDataSet = (dataSet) => {
+    const invTable = HomeInventoryDatabase[dataSet]
+    invTable.forEach(item => {
     let makeElement =  document.createElement("section");
-    let newP = document.createElement("p");
-    newP.textContent = heh[key][i].name
-    makeElement.appendChild(newP);
-    art.appendChild(makeElement);
+    for(let key in item) {
     
-     makeElement =  document.createElement("section");
-     newP = document.createElement("p");
-    newP.textContent = heh[key][i].location
+    const newP = document.createElement("p");
+    newP.textContent = `${key}: ${item[key]}`
     makeElement.appendChild(newP);
-    art.appendChild(makeElement);
-
-    makeElement =  document.createElement("section");
-     newP = document.createElement("p");
-    newP.textContent = heh[key][i].description
-    makeElement.appendChild(newP);
-    art.appendChild(makeElement);
-  }
-}
-
-function makeElement ( ) {
     
+    }
+    homeInventoryFragment.appendChild(makeElement);
+
+})
+
 }
+populateDomForDataSet("furniture")   
+art.appendChild(homeInventoryFragment)
+
+     
